@@ -6,6 +6,7 @@ library(RWeka)
 library(ggplot2)
 library(qdapRegex)
 library(slam)
+library(reshape2)
 
 url_train <- "https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip"
 
@@ -119,9 +120,25 @@ saveRDS(unigram, file = "./unigram.RData")
 saveRDS(bigram, file = "./bigram.RData")
 saveRDS(trigram, file = "./trigram.RData")
 #Convert to sorted Data Frames
-unigramDF <- sort(row_sums(unigram, na.rm = T), decreasing = T)
-bigramDF <- sort(row_sums(bigram, na.rm = T), decreasing = T)
-trigramDF <- sort(row_sums(trigram, na.rm = T), decreasing = T)
+unigramN <- sort(row_sums(unigram, na.rm = T), decreasing = T)
+bigramN <- sort(row_sums(bigram, na.rm = T), decreasing = T)
+trigramN <- sort(row_sums(trigram, na.rm = T), decreasing = T)
+
+unigramDF$Word <- rownames(unigramDF)
+colnames(unigramDF)[which(names(unigramDF) == "value")] <- "Frequency"
+
+bigramDF$Word <- rownames(bigramDF)
+colnames(bigramDF)[which(names(bigramDF) == "value")] <- "Frequency"
+
+trigramDF$Word <- rownames(trigramDF)
+colnames(trigramDF)[which(names(trigramDF) == "value")] <- "Frequency"
+#colnames(dataframe)[which(names(dataframe) == "columnName")] <- "newColumnName"
+#source: http://stackoverflow.com/questions/6081439/changing-column-names-of-a-data-frame-in-r
+
+#Cleanup
+rm(unigramN)
+rm(bigramN)
+rm(trigramN)
 
 #Explore the N-Grams 
 # unigrams appearing more than 1000 times
@@ -131,13 +148,18 @@ findFreqTerms(bigram, lowfreq = 200)
 # trigrams apprering more than 50 times
 findFreqTerms(trigram, lowfreq = 50)
 
-#Converting Corpus to Data Frame for processing by the RWeka functions
+#Plot the NGrams
 #source: https://rpubs.com/bjpzhao/Data-Science-Capstone-Milestone
-cleanText<-data.frame(text=unlist(sapply(corpus, `[`, "content")), stringsAsFactors=F)
-oneToken <- NGramTokenizer(cleanText, Weka_control(min = 1, max = 1))
-one <- data.frame(table(oneToken))
-oneSorted <- one[order(one$Freq,decreasing = TRUE),]
-one20 <- oneSorted[1:20,]
-colnames(one20) <- c("Word","Frequency")
+uni20 <- unigramDF[1:20,]
+bi20 <- bigramDF[1:20,]
+tri20 <- trigramDF[1:20,]
 #Top20 single words
-g <- ggplot(one20, aes(x=Word,y=Frequency), ) + geom_bar(stat="Identity", fill="blue") + geom_text(aes(label=Frequency), vjust=-0.2)
+g <- ggplot(uni20, aes(x=Word,y=Frequency), ) + geom_bar(stat="Identity", fill="blue") + geom_text(aes(label=Frequency), vjust=-0.2) + theme(axis.text.x=element_text(angle=90, hjust=1))
+g
+#Top 20 word pairs
+h <- ggplot(bi20, aes(x=Word,y=Frequency), ) + geom_bar(stat="Identity", fill="blue") + geom_text(aes(label=Frequency), vjust=-0.2) + theme(axis.text.x=element_text(angle=90, hjust=1))
+h
+#Top 20 word triplets
+j <- ggplot(tri20, aes(x=Word,y=Frequency), ) + geom_bar(stat="Identity", fill="blue") + geom_text(aes(label=Frequency), vjust=-0.2) + theme(axis.text.x=element_text(angle=90, hjust=1))
+j
+
