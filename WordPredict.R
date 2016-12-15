@@ -97,22 +97,10 @@ rm(subLineTwitter)
 rm(wordTwitter)
 rm(wordBlogs)
 rm(wordNews)
-
-#Alternate:
-# cleanDF <- as.data.frame(cleanSample)
-# ngramTokenizer <- function(DF, n) {
-#     ngramFunction <- NGramTokenizer(DF, Weka_control(min = n, max = n, delimiters = " \\r\\n\\t.,;:\"()?!"))
-#     ngramFunction <- data.frame(table(ngramFunction))
-#     ngramFunction <- ngramFunction[order(ngramFunction$Freq, decreasing = TRUE),][1:10,]
-#     colnames(ngramFunction) <- c("String","Count")
-#     ngramFunction
-# }
-# unigram <- ngramTokenizer(cleanDF, 1)
-# saveRDS(unigram, file = "./unigram.RData")
-# bigram <- ngramTokenizer(cleanDF, 2)
-# saveRDS(bigram, file = "./bigram.RData")
-# trigram <- ngramTokenizer(cleanDF, 3)
-# saveRDS(trigram, file = "./trigram.RData")
+rm(con)
+rm(fileName)
+rm(profanity)
+rm(index)
 
 #Create the Corpus
 corpus <- VCorpus(VectorSource(cleanSample))
@@ -125,13 +113,14 @@ trigramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3)
 unigram <- TermDocumentMatrix(corpus, control = list(tokenize = unigramTokenizer))
 bigram <- TermDocumentMatrix(corpus, control = list(tokenize = bigramTokenizer))
 trigram <- TermDocumentMatrix(corpus, control = list(tokenize = trigramTokenizer))
+#Save the TDM's
+saveRDS(unigram, file = "./unigram.RData")
+saveRDS(bigram, file = "./bigram.RData")
+saveRDS(trigram, file = "./trigram.RData")
 #Convert to sorted Data Frames
 unigramDF <- sort(row_sums(unigram, na.rm = T), decreasing = T)
 bigramDF <- sort(row_sums(bigram, na.rm = T), decreasing = T)
 trigramDF <- sort(row_sums(trigram, na.rm = T), decreasing = T)
-#tri.matrix <- slam::row_sums(tri.termdocmat)
-#slam now has the row_sums and col_sums functions for sparse arrays
-#source: http://stackoverflow.com/a/30864689
 
 #Explore the N-Grams 
 # unigrams appearing more than 1000 times
