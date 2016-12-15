@@ -7,6 +7,7 @@ library(ggplot2)
 library(qdapRegex)
 library(slam)
 library(reshape2)
+library(markovchain)
 
 url_train <- "https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip"
 
@@ -136,9 +137,7 @@ colnames(trigramDF)[which(names(trigramDF) == "value")] <- "Frequency"
 #source: http://stackoverflow.com/questions/6081439/changing-column-names-of-a-data-frame-in-r
 
 #Cleanup
-rm(unigramN)
-rm(bigramN)
-rm(trigramN)
+rm(unigramN, bigramN, trigramN)
 
 #Explore the N-Grams 
 # unigrams appearing more than 1000 times
@@ -162,4 +161,7 @@ h
 #Top 20 word triplets
 j <- ggplot(tri20, aes(x=Word,y=Frequency), ) + geom_bar(stat="Identity", fill="blue") + geom_text(aes(label=Frequency), vjust=-0.2) + theme(axis.text.x=element_text(angle=90, hjust=1))
 j
+
+#Cleanup
+rm(uni20,bi20,tri20, g, h, j)
 
