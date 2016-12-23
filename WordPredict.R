@@ -8,6 +8,7 @@ library(qdapRegex)
 library(slam)
 library(reshape2)
 library(markovchain)
+#library(caTools)
 
 url_train <- "https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip"
 
@@ -90,6 +91,11 @@ close(con)
 #source: https://gist.github.com/ryanlewis/a37739d710ccdb4b406d
 cleanSample <- removeWords(cleanSample,profanity)
 
+# set.seed(123)
+# split = sample.split(cleanSample, 0.7)
+# train <- subset(cleanSample, split == T)
+# valid <- subset(cleanSample, split == F)
+
 #Remove Unused variables to conserve RAM
 rm(lineBlogs)
 rm(lineNews)
@@ -116,6 +122,10 @@ trigramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min = 3, max = 3)
 unigram <- TermDocumentMatrix(corpus, control = list(tokenize = unigramTokenizer))
 bigram <- TermDocumentMatrix(corpus, control = list(tokenize = bigramTokenizer))
 trigram <- TermDocumentMatrix(corpus, control = list(tokenize = trigramTokenizer))
+
+#Cleanup
+rm(corpus,sample,cleanSample)
+
 #Save the TDM's
 saveRDS(unigram, file = "./unigram.RData")
 saveRDS(bigram, file = "./bigram.RData")
@@ -125,16 +135,25 @@ unigramN <- sort(row_sums(unigram, na.rm = T), decreasing = T)
 bigramN <- sort(row_sums(bigram, na.rm = T), decreasing = T)
 trigramN <- sort(row_sums(trigram, na.rm = T), decreasing = T)
 
+unigramDF <- melt(unigramN)
 unigramDF$Word <- rownames(unigramDF)
 colnames(unigramDF)[which(names(unigramDF) == "value")] <- "Frequency"
 
+bigramDF <- melt(bigramN)
 bigramDF$Word <- rownames(bigramDF)
 colnames(bigramDF)[which(names(bigramDF) == "value")] <- "Frequency"
+bigramDF <- cbind(bigramDF,colsplit(bigramDF$Word, pattern = " ", c("Word1", "Word2")))
 
+trigramDF <- melt(trigramN)
 trigramDF$Word <- rownames(trigramDF)
 colnames(trigramDF)[which(names(trigramDF) == "value")] <- "Frequency"
+trigramDF <- cbind(trigramDF,colsplit(trigramDF$Word, pattern = " ", c("Word1", "Word2", "Word3")))
 #colnames(dataframe)[which(names(dataframe) == "columnName")] <- "newColumnName"
 #source: http://stackoverflow.com/questions/6081439/changing-column-names-of-a-data-frame-in-r
+
+saveRDS(unigramDF, file = "./unigramDF.RData")
+saveRDS(bigramDF, file = "./bigramDF.RData")
+saveRDS(trigramDF, file = "./trigramDF.RData")
 
 #Cleanup
 rm(unigramN, bigramN, trigramN)
@@ -165,3 +184,20 @@ j
 #Cleanup
 rm(uni20,bi20,tri20, g, h, j)
 
+input <- "In accordance"
+inputCleaner <- function(input){
+    #To Lowercase
+    cleanInput <- stri_trans_tolower(input)
+    #Remove Punctuation
+    cleanInput <- removePunctuation(cleanInput,preserve_intra_word_dashes = TRUE)
+    #Remove Numbers
+    cleanInput <- removeNumbers(cleanInput)
+    #Remove Whitespace
+    cleanInput <- stripWhitespace(cleanInput)
+    #Replace Accented Words, Emojis
+    cleanInput <- rm_emoticon(cleanInput)
+    #cleanSample <- iconv(cleanSample, to = "ASCII//TRANSLIT")
+    #Remove Profanity
+    cleanInput <- removeWords(cleanInput,profanity)
+}
+cleanInput <- inputCleaner(input)
