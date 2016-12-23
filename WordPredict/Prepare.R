@@ -60,23 +60,31 @@ nextWord <- function(cleanInput,unigramDF,bigramDF,trigramDF){
         if(nrow(vlookup) > 5){return(vlookup[1:5,5])}
         return(vlookup[1:nrow(vlookup),5])
     }
-    #user input word count is more than two
-    if(nWords > 2){
-        #grab the last two words
-        input1 <- tail(unlist(stri_split(cleanInput,regex = " ")),2)[1]
-        input2 <- tail(unlist(stri_split(cleanInput,regex = " ")),2)[2]
-        vlookup <- subset(trigramDF,Word1 == input1 & Word2 == input2)
-        #if there is no match, check out the last word in bigrams
+    #user input word count is equal to or more than three
+    if(nWords >= 3){
+        #grab the last three words
+        input1 <- tail(unlist(stri_split(cleanInput,regex = " ")),3)[1]
+        input2 <- tail(unlist(stri_split(cleanInput,regex = " ")),3)[2]
+        input3 <- tail(unlist(stri_split(cleanInput,regex = " ")),3)[3]
+        vlookup <- subset(quadgramDF,Word1 == input1 & Word2 == input2 & Word3 == input3)
+        #if there is no match, check out the last two words in trigrams
         if(nrow(vlookup) == 0){
-            vlookup <- subset(bigramDF,Word1 == input2)
-            #if there is no match, return first 5 common words
-            if(nrow(vlookup) == 0){return(unigramDF[1:5,2])}
-            #otherwise return first 5 non-NA matched words
-            if(nrow(vlookup) > 5){return(vlookup[1:5,4])}
-            return(vlookup[1:nrow(vlookup),4])
+            vlookup <- subset(trigramDF,Word1 == input2 & Word2 == input3)
+            #if there is no match, check out the last word in bigrams
+            if(nrow(vlookup) == 0){
+                vlookup <- subset(bigramDF,Word1 == input2)
+                #if there is no match, return first 5 common words
+                if(nrow(vlookup) == 0){return(unigramDF[1:5,2])}
+                #otherwise return first 5 non-NA matched words
+                if(nrow(vlookup) > 5){return(vlookup[1:5,4])}
+                return(vlookup[1:nrow(vlookup),4])
+            }
+            #return first 5 matched non-NA words
+            if(nrow(vlookup) > 5){return(vlookup[1:5,5])}
+            return(vlookup[1:nrow(vlookup),5])
         }
         #return first 5 matched non-NA words
-        if(nrow(vlookup) > 5){return(vlookup[1:5,5])}
-        return(vlookup[1:nrow(vlookup),5])
+        if(nrow(vlookup) > 5){return(vlookup[1:5,6])}
+        return(vlookup[1:nrow(vlookup),6])
     }
 }
