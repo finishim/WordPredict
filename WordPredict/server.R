@@ -14,6 +14,7 @@ library(shiny)
 unigramDF <- readRDS(file="./unigramDF.RData")
 bigramDF <- readRDS(file="./bigramDF.RData")
 trigramDF <- readRDS(file="./trigramDF.RData")
+quadgramDF <- readRDS(file="./quadgramDF.RData")
 
 # Load the functions
 source(file="./Prepare.R")
@@ -33,7 +34,7 @@ shinyServer(function(input, output) {
         cleanInput <- inputCleaner(textIn,profanity)
         
         # Predict the next word
-        prediction <- nextWord(cleanInput,unigramDF,bigramDF,trigramDF)
+        prediction <- nextWord(cleanInput,unigramDF,bigramDF,trigramDF,quadgramDF)
     })
     
     output$result <- renderText({

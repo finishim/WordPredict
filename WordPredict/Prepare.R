@@ -25,7 +25,7 @@ inputCleaner <- function(input,profanity){
     cleanInput <- removeWords(cleanInput,profanity)
 }
 
-nextWord <- function(cleanInput,unigramDF,bigramDF,trigramDF){
+nextWord <- function(cleanInput,unigramDF,bigramDF,trigramDF,quadgramDF){
 
     nWords <- stri_count_words(cleanInput)
     #user input word count is zero
