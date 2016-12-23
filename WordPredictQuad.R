@@ -117,3 +117,4 @@ saveRDS(quadgramDF, file = "./quadgramDF.RData")
 #Cleanup
 rm(unigramN, bigramN, trigramN, quadgramN)
 rm(unigram, bigram, trigram, quadgram)
+rm(unigramTokenizer, bigramTokenizer, trigramTokenizer, quadgramTokenizer)
