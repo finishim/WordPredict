@@ -72,7 +72,7 @@ nextWord <- function(cleanInput,unigramDF,bigramDF,trigramDF){
             vlookup <- subset(trigramDF,Word1 == input2 & Word2 == input3)
             #if there is no match, check out the last word in bigrams
             if(nrow(vlookup) == 0){
-                vlookup <- subset(bigramDF,Word1 == input2)
+                vlookup <- subset(bigramDF,Word1 == input3)
                 #if there is no match, return first 5 common words
                 if(nrow(vlookup) == 0){return(unigramDF[1:5,2])}
                 #otherwise return first 5 non-NA matched words
