@@ -113,3 +113,7 @@ saveRDS(unigramDF, file = "./unigramDF.RData")
 saveRDS(bigramDF, file = "./bigramDF.RData")
 saveRDS(trigramDF, file = "./trigramDF.RData")
 saveRDS(quadgramDF, file = "./quadgramDF.RData")
+
+#Cleanup
+rm(unigramN, bigramN, trigramN, quadgramN)
+rm(unigram, bigram, trigram, quadgram)
