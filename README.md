@@ -16,3 +16,6 @@ After the data was cleaned, it was all put into a corpus object and then tokeniz
 This way when a user inputs some words, we could check the last three words and match them with first three words of word quartets. Based on occurance frequency, we could then return the most commonly occuring words as the upcoming fourth word.  
 
 If the given input did not match anything in the word quartets, then we back-off and try to find observations of last two words in word triplets; last word in word pairs; and if that does not work, then we give the 5 most commonly used single words as predictions.  
+
+Link to the presentation: http://rpubs.com/finishim/WordPredict  
+Link to the application: https://finishim.shinyapps.io/WordPredict/  
