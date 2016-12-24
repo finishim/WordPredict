@@ -84,5 +84,10 @@ Application and Source Code
 
 Here is how the application looks:  
 ![Application Screenshot](app.png)  
-The link to the application is [here]().  
-The link to the source code is [here]().
+The link to the application is [here](https://finishim.shinyapps.io/WordPredict/).  
+The link to the source code is [here](https://github.com/finishim/WordPredict).  
+
+Future Enhancements:  
+- To improve accuracy, big amount of data was input during the initial load, increasing load time. This could be circumvented in a future release. Instead of using blogs, tweets and news combined, one kind of input could be used based on where the application will be used.  
+-  A loading message warning the user while the data load is going on could be helpful to make sure the user sticks
+around.  
