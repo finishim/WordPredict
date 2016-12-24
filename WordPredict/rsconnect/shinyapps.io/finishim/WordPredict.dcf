@@ -3,9 +3,9 @@ title: WordPredict
 account: finishim
 server: shinyapps.io
 appId: 147229
-bundleId: 659816
+bundleId: 659824
 url: https://finishim.shinyapps.io/WordPredict/
-when: 1482544139.46754
+when: 1482546476.39359
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: app.PNG|WordPredictPresentation.md|WordPredictPresentation.Rpres|WordPredictPresentation-figure/app.PNG|WordPredictPresentation-figure/unnamed-chunk-1-1.png|WordPredictPresentation-figure/unnamed-chunk-2-1.png
+ignoredFiles: app.PNG|WordPredictPresentation-rpubs.html|WordPredictPresentation.md|WordPredictPresentation.Rpres|WordPredictPresentation-figure/app.PNG|WordPredictPresentation-figure/unnamed-chunk-1-1.png|WordPredictPresentation-figure/unnamed-chunk-2-1.png
