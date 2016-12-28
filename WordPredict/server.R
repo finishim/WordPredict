@@ -11,10 +11,10 @@ library(reshape2)
 library(shiny)
 
 # Load already created ngram data frames 
-unigramDF <- readRDS(file="./unigramDF.RData")
-bigramDF <- readRDS(file="./bigramDF.RData")
-trigramDF <- readRDS(file="./trigramDF.RData")
-quadgramDF <- readRDS(file="./quadgramDF.RData")
+unigramDF <- readRDS(file="./unigramDF2.RData")
+bigramDF <- readRDS(file="./bigramDF2.RData")
+trigramDF <- readRDS(file="./trigramDF2.RData")
+quadgramDF <- readRDS(file="./quadgramDF2.RData")
 
 # Load the functions
 source(file="./Prepare.R")

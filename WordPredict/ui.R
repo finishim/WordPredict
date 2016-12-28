@@ -20,7 +20,7 @@ shinyUI(fluidPage(
     sidebarPanel(
        textInput("text", "Enter text here:", value = ""),
        helpText("Once you start filling this out, next word will be predicted with up to 5 alternatives."),
-       helpText("It could take about 20 seconds for the initial load, please wait.")
+       helpText("It could take up to 10 seconds for the initial load, please wait.")
     ),
     
     # Show the predictions

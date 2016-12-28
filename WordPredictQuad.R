@@ -26,13 +26,13 @@ close(con)
 
 #Sample the Files
 set.seed(123)
-index <- sample(1:length(lineBlogs),length(lineBlogs)/20)
+index <- sample(1:length(lineBlogs),length(lineBlogs)/50)
 subLineBlogs <- lineBlogs[index]
 set.seed(123)
-index <- sample(1:length(lineNews),length(lineNews)/20)
+index <- sample(1:length(lineNews),length(lineNews)/50)
 subLineNews <- lineNews[index]
 set.seed(123)
-index <- sample(1:length(lineTwitter),length(lineTwitter)/20)
+index <- sample(1:length(lineTwitter),length(lineTwitter)/50)
 subLineTwitter <- lineTwitter[index]
 
 #Clean up the Data
@@ -109,10 +109,10 @@ quadgramDF$Word <- rownames(quadgramDF)
 colnames(quadgramDF)[which(names(quadgramDF) == "value")] <- "Frequency"
 quadgramDF <- cbind(quadgramDF,colsplit(quadgramDF$Word, pattern = " ", c("Word1", "Word2", "Word3","Word4")))
 
-saveRDS(unigramDF, file = "./unigramDF.RData")
-saveRDS(bigramDF, file = "./bigramDF.RData")
-saveRDS(trigramDF, file = "./trigramDF.RData")
-saveRDS(quadgramDF, file = "./quadgramDF.RData")
+saveRDS(unigramDF, file = "./unigramDF2.RData")
+saveRDS(bigramDF, file = "./bigramDF2.RData")
+saveRDS(trigramDF, file = "./trigramDF2.RData")
+saveRDS(quadgramDF, file = "./quadgramDF2.RData")
 
 #Cleanup
 rm(unigramN, bigramN, trigramN, quadgramN)
